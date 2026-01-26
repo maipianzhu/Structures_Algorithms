@@ -37,7 +37,7 @@ def get_next(pattern):
 
 if __name__ == "__main__":
     # 主串
-    text = "abababaababcabb"
+    text = "abababaabcscsedgvababcabb"
     # 模式串
     pattern = "ababc"
 
@@ -61,3 +61,63 @@ if __name__ == "__main__":
         if j == len(pattern):
             print(i - j + 1)
             break
+    print("------1------")
+
+"""
+    练习：
+    1.构造记录数组
+        def get_next(pattern):
+            next = [0] * len(pattern)
+            j = 0
+            for i in range(1,len(pattern)):
+                while(j > 0 and pattern[i] != pattern[j]):
+                    j = next[j-1]
+                if(pattern[i] == pattern[j]):
+                    j +=1
+                next[i] = j
+            return next
+    2.完整代码
+        text = "ababababcscbabscsbababs"
+        pattern = "babas"
+        next = get_next(pattern)
+        j = 0
+        for i in range(len(text)):
+            while(j>0 and text[i] != pattern[j]):
+                j = next[j-1]
+            if(text[i] == pattern[j]):
+                j +=1
+            if(j == len(pattern)):
+                return i-j+1
+        return -1
+"""
+
+
+# 验证手写结果
+
+
+def get_next_text(pattern):
+    next = [0] * len(pattern)
+    j = 0
+    for i in range(1, len(pattern)):
+        while j > 0 and pattern[i] != pattern[j]:
+            j = next[j - 1]
+        if pattern[i] == pattern[j]:
+            j += 1
+        next[i] = j
+    return next
+
+
+def get_result(text: str, pattern: str) -> int:
+    next = get_next_text(pattern)
+    j = 0
+    for i in range(len(text)):
+        while j > 0 and text[i] != pattern[j]:
+            j = next[j - 1]
+        if text[i] == pattern[j]:
+            j += 1
+        if j == len(pattern):
+            return i - j + 1
+    return -1
+
+
+print(get_result("abababaabcscsedgvababcabb", "ababc"))
